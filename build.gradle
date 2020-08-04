@@ -6,9 +6,12 @@ buildscript {
     ext.android_arch_version = '2.1.0'
     ext.viewmodel_version = '2.2.0'
     ext.koin_version = '2.0.1'
+    ext.anko_version = '0.10.4'
 
 
     repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
         google()
         jcenter()
     }
@@ -23,6 +26,8 @@ buildscript {
 
 allprojects {
     repositories {
+        mavenCentral()
+        maven { url 'https://jitpack.io' }
         google()
         jcenter()
     }
