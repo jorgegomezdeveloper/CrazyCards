@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Crazy Cards</string>
+    <string name="text_button_options">Opciones</string>
+    <string name="message_start_game">¡Toca sobre el montón para colocar una carta!</string>
 </resources>

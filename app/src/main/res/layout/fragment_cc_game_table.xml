@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorGeneral">
+
+    <LinearLayout
+        android:id="@+id/ccGameTableMainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:background="@color/colorPrimaryDark"
+        android:weightSum="1">
+
+        <!-- USER LEFT -->
+        <LinearLayout
+            android:id="@+id/ccGameTableLeftLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.45"
+            android:orientation="vertical"
+            android:layout_margin="10dp"
+            android:weightSum="1">
+
+            <LinearLayout
+                android:id="@+id/ccGTDiscardsUserLeftLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:gravity="start|center">
+
+                <include layout="@layout/card_view_cc_crazy"
+                    android:id="@+id/cardsDiscardsUserLeftImage"
+                    android:visibility="invisible"/>
+
+                <TextView
+                    android:id="@+id/counterDiscardsUserLeftText"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="start"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorGeneral"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ccGTActivesUserLeftLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="0.5">
+
+                    <include layout="@layout/card_view_cc_crazy"
+                        android:id="@+id/cardsPendingUserLeftImage"
+                        android:visibility="invisible"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="0.5"
+                    android:gravity="end">
+
+                    <include layout="@layout/card_view_cc_crazy"
+                        android:id="@+id/cardPutUserLeftImage"
+                        android:visibility="gone"/>
+
+                    <TextView
+                        android:id="@+id/messageStartGameLeftText"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_margin="10dp"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorGeneral"
+                        android:text="@string/message_start_game"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/optionsButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorGeneral"
+                android:text="@string/text_button_options"
+                android:visibility="gone"/>
+
+        </LinearLayout>
+
+        <!-- USER RIGHT -->
+        <LinearLayout
+            android:id="@+id/ccGameTableRightLayout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.45"
+            android:orientation="vertical"
+            android:layout_margin="10dp">
+
+            <LinearLayout
+                android:id="@+id/ccGTDiscardsUserRightLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:gravity="end|center">
+
+                <TextView
+                    android:id="@+id/counterDiscardsUserRightText"
+                    android:layout_width="120dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:textSize="20sp"
+                    android:textColor="@color/colorGeneral"/>
+
+                <include layout="@layout/card_view_cc_crazy"
+                    android:id="@+id/cardsDiscardsUserRightImage"
+                    android:visibility="invisible"/>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/ccGTActivesUserRightLayout"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="0.5"
+                android:orientation="horizontal"
+                android:gravity="center"
+                android:weightSum="1">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="0.5"
+                    android:gravity="start">
+
+                    <TextView
+                        android:id="@+id/messageStartGameRightText"
+                        android:layout_width="120dp"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:layout_margin="10dp"
+                        android:textSize="12sp"
+                        android:textColor="@color/colorGeneral"
+                        android:text="@string/message_start_game"
+                        android:visibility="gone"/>
+
+                    <include layout="@layout/card_view_cc_crazy"
+                        android:id="@+id/cardPutUserRightImage"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_weight="0.5"
+                    android:gravity="end">
+
+                    <include layout="@layout/card_view_cc_crazy"
+                        android:id="@+id/cardsPendingUserRightImage"
+                        android:visibility="invisible"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
