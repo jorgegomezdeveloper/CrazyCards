@@ -113,6 +113,26 @@
                 android:text="@string/text_button_options"
                 android:visibility="gone"/>
 
+            <TextView
+                android:id="@+id/counterRoundText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="20dp"
+                android:textSize="16sp"
+                android:textColor="@color/colorGeneral"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/titleRoundText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16sp"
+                android:textColor="@color/colorGeneral"
+                android:text="@string/text_title_round"
+                android:visibility="gone"/>
+
         </LinearLayout>
 
         <!-- USER RIGHT -->
