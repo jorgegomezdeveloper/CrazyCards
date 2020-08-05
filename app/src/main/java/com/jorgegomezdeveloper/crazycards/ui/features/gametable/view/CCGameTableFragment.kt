@@ -6,9 +6,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.annotation.Nullable
 import com.jorgegomezdeveloper.crazycards.R
+import com.jorgegomezdeveloper.crazycards.data.services.cards.CardsManager
 import com.jorgegomezdeveloper.crazycards.databinding.FragmentCcGameTableBinding
 import com.jorgegomezdeveloper.crazycards.ui.base.CCBaseViewModelFragment
 import com.jorgegomezdeveloper.crazycards.ui.features.gametable.viewmodel.CCGameTableViewModel
+import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
@@ -21,6 +23,9 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
 
     // View Models and Fragments
     private val ccGameTableViewModel: CCGameTableViewModel by viewModel()
+
+    // Managers
+    private val cardsManager: CardsManager by inject()
 
     // View Binding
     private lateinit var binding: FragmentCcGameTableBinding
@@ -46,6 +51,11 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        loadData()
+    }
+
+    override fun loadData() {
+
 
     }
 
