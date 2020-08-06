@@ -1,8 +1,14 @@
 package com.jorgegomezdeveloper.crazycards.data.services.cards
 
+import com.jorgegomezdeveloper.crazycards.common.Constants
 import com.jorgegomezdeveloper.crazycards.model.CardModel
 import kotlin.random.Random
 
+/**
+ * @author Jorge Gomez Alvarez (jorgegomezdeveloper@gmail.com)
+ * This manager class allows implementing the necessary methods, that will
+ * generate the data that will be served to build the different collections of cards.
+ */
 class CardsManager {
 
     companion object {
@@ -43,6 +49,9 @@ class CardsManager {
 // Public methods - Builders Lists
 // =================================================================================================
 
+    /**
+     * Allows you to create an ordered collection with the values ​​of the entire deck to play with.
+     */
     fun buildListOrdered(): ArrayList<CardModel?>? {
 
         for (i in TYPE_START..TYPE_END) {
@@ -67,6 +76,9 @@ class CardsManager {
         return  this.cardListOrdered
     }
 
+    /**
+     * It allows you to create a collection of values ​​picked randomly from the ordered list.
+     */
     fun buildListRandom(cardListOrdered: ArrayList<CardModel?>?): ArrayList<CardModel?>? {
 
         while (cardListOrdered!!.isNotEmpty()) {
@@ -84,6 +96,10 @@ class CardsManager {
         return this.cardListRandom
     }
 
+    /**
+     * It allows you to create a collection with half the values ​​from the random
+     * list for the user on the left.
+     */
     fun buildListRandomLeft(cardListRandom: ArrayList<CardModel?>?): ArrayList<CardModel?>? {
 
         val sizeDivided = (cardListRandom?.size?.div(2))?.minus(1)
@@ -92,13 +108,17 @@ class CardsManager {
             this.cardListRandomUserLeft?.add(cardListRandom[i])
         }
 
-        while (cardListRandom.size > 26) {
+        while (cardListRandom.size > Constants.MAX_ROUNDS) {
             cardListRandom.removeAt(0)
         }
 
         return this.cardListRandomUserLeft
     }
 
+    /**
+     * It allows you to create a collection with half of the values ​​from
+     * the random list for the user on the right.
+     */
     fun buildListRandomRight(cardListRandom: ArrayList<CardModel?>?): ArrayList<CardModel?>? {
 
         for (card in cardListRandom!!) {
@@ -114,6 +134,10 @@ class CardsManager {
 // Public methods - Gets Cards Put
 // =================================================================================================
 
+    /**
+     * It allows you to return the first card of the pile of pending cards,
+     * so that the user on the left can place it on the game table.
+     */
     fun getCardPutUserLeft(): CardModel? {
 
         val cardPut = this.cardListRandomUserLeft?.get(0)
@@ -122,6 +146,10 @@ class CardsManager {
         return cardPut
     }
 
+    /**
+     * It allows you to return the first card of the pile of pending cards,
+     * so that the user on the right can place it on the game table.
+     */
     fun getCardPutUserRight(): CardModel? {
 
         val cardPut = this.cardListRandomUserRight?.get(0)
@@ -133,6 +161,9 @@ class CardsManager {
 // Public methods - Add Discards Cards
 // =================================================================================================
 
+    /**
+     * Allows you to add the two discarded cards won to the user on the left.
+     */
     fun addCardsListDiscardsUserLeft(cardLeft: CardModel, cardRight: CardModel):
                                                                             ArrayList<CardModel?>? {
         this.cardListDiscardsUserLeft?.add(cardLeft)
@@ -141,6 +172,9 @@ class CardsManager {
         return this.cardListDiscardsUserLeft
     }
 
+    /**
+     * Allows you to add the two discarded cards won to the user on the right.
+     */
     fun addCardsListDiscardsUserRight(cardRight: CardModel, cardLeft: CardModel):
                                                                             ArrayList<CardModel?>? {
         this.cardListDiscardsUserRight?.add(cardRight)
@@ -154,13 +188,5 @@ class CardsManager {
 
     fun getCardListRandom(): ArrayList<CardModel?>? {
         return this.cardListRandom
-    }
-
-    fun getCardListRandomUserLeft(): ArrayList<CardModel?>? {
-        return this.cardListRandomUserLeft
-    }
-
-    fun getCardListRandomUserRight(): ArrayList<CardModel?>? {
-        return this.cardListRandomUserRight
     }
 }

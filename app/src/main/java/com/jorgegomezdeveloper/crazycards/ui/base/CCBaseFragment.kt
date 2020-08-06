@@ -7,8 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.jorgegomezdeveloper.crazycards.R
-abstract class CCBaseFragment: Fragment() {
 
+/**
+ * @author Jorge Gomez Alvarez (jorgegomezdeveloper@gmail.com)
+ * This parent class of all fragments.
+ */
+abstract class CCBaseFragment: Fragment() {
 
 // Attributes
 // =================================================================================================
