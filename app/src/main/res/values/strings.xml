@@ -1,6 +1,13 @@
 <resources>
     <string name="app_name">Crazy Cards</string>
     <string name="text_button_options">Opciones</string>
-    <string name="text_title_round">Ronda</string>
+    <string name="text_counter_round">%1$s/26</string>
+    <string name="text_title_round">Rondas</string>
+    <string name="text_title_priority">Prioridad</string>
     <string name="message_start_game">¡Toca sobre las cartas para colocar una!</string>
+    <string name="text_win_round">*¡GANASTE LA RONDA!*</string>
+    <string name="text_lose_round">¡SUERTE EN LA SIGUIENTE!</string>
+    <string name="text_result_discards">%1$s Cartas descartadas</string>
+    <string name="text_winner_game">***¡OEOEOEEEE, GANASTE LA PARTIDA!***</string>
+    <string name="text_loser_game">¡PRUEBA SUERTE EN LA SIGUIENTE!</string>
 </resources>

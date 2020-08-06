@@ -89,7 +89,7 @@ class CardsManager {
         val sizeDivided = (cardListRandom?.size?.div(2))?.minus(1)
 
         for (i in 0..sizeDivided!!) {
-            cardListRandomUserLeft?.add(cardListRandom[i])
+            this.cardListRandomUserLeft?.add(cardListRandom[i])
         }
 
         while (cardListRandom.size > 26) {
@@ -102,7 +102,7 @@ class CardsManager {
     fun buildListRandomRight(cardListRandom: ArrayList<CardModel?>?): ArrayList<CardModel?>? {
 
         for (card in cardListRandom!!) {
-            cardListRandomUserRight?.add(card)
+            this.cardListRandomUserRight?.add(card)
         }
 
         cardListRandom.clear()
@@ -153,14 +153,14 @@ class CardsManager {
 // =================================================================================================
 
     fun getCardListRandom(): ArrayList<CardModel?>? {
-        return cardListRandom
+        return this.cardListRandom
     }
 
     fun getCardListRandomUserLeft(): ArrayList<CardModel?>? {
-        return cardListRandomUserLeft
+        return this.cardListRandomUserLeft
     }
 
     fun getCardListRandomUserRight(): ArrayList<CardModel?>? {
-        return cardListRandomUserRight
+        return this.cardListRandomUserRight
     }
 }

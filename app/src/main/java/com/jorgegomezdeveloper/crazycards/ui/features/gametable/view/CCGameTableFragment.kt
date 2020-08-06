@@ -3,7 +3,6 @@ package com.jorgegomezdeveloper.crazycards.ui.features.gametable.view
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -29,6 +28,7 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         const val TAG_FRAGMENT = "CCGameTableFragment"
         const val TIME_FINISH: Long = 5000
         const val TIME_INTERVAL: Long = 1000
+        const val TIME_FINISH_END: Long = 10000
     }
 
     // DEPENDENCY INJECTS
@@ -48,7 +48,6 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
     }
 
     override fun initialize() {
-
     }
 
     @Nullable
@@ -64,8 +63,19 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeViews()
         loadData()
         observeData()
+    }
+
+    override fun initializeViews() {
+
+        // Rounds
+        counterRoundText.visibility = View.VISIBLE
+        updateRounds()
+
+        // Priorities
+        ccPrioritiesLayout.visibility = View.VISIBLE
     }
 
     override fun loadData() {
@@ -97,17 +107,12 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         ccGameTableViewModel.getBuildListRandomLeftMutableLiveData().observe(viewLifecycleOwner,
             Observer<ArrayList<CardModel?>> {
 
-                val cardListRandomLeft = ccGameTableViewModel.getBuildListRandomLeftMutableLiveData().value
-                        as ArrayList<CardModel?>
-
-                ccGameTableViewModel.buildListRandomRight(cardsManager, cardsManager.getCardListRandom())
+                ccGameTableViewModel.buildListRandomRight(
+                    cardsManager, cardsManager.getCardListRandom())
             })
 
         ccGameTableViewModel.getBuildListRandomRightMutableLiveData().observe(viewLifecycleOwner,
             Observer<ArrayList<CardModel?>> {
-
-                val cardListRandomRight = ccGameTableViewModel.getBuildListRandomRightMutableLiveData().value
-                        as ArrayList<CardModel?>
 
                 initializeViewsPendingCardsUsers()
             })
@@ -154,6 +159,9 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
     private fun initializeViewsCardPutUserLeft(card: CardModel?) {
 
         cardsPendingUserLeftImage.isEnabled = false
+        if (playManager.getCounterRounds() == PlayManager.MAX_ROUNDS) {
+            cardsPendingUserLeftImage.visibility = View.INVISIBLE
+        }
 
         messageStartGameLeftText.visibility = View.GONE
         cardPutUserLeftImage.visibility = View.VISIBLE
@@ -172,6 +180,9 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
     private fun initializeViewsCardPutUserRight(card: CardModel?) {
 
         cardsPendingUserRightImage.isEnabled = false
+        if (playManager.getCounterRounds() == PlayManager.MAX_ROUNDS) {
+            cardsPendingUserRightImage.visibility = View.INVISIBLE
+        }
 
         messageStartGameRightText.visibility = View.GONE
         cardPutUserRightImage.visibility = View.VISIBLE
@@ -215,11 +226,24 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
             .compareCards(ccGameTableViewModel.cardLefPut!!, ccGameTableViewModel.cardRightPut!!)
 
         if (userWinner == Constants.WIN_USER_LEFT) {
+
             cardsManager.addCardsListDiscardsUserLeft(
                 ccGameTableViewModel.cardLefPut!!, ccGameTableViewModel.cardRightPut!!)
+
+            counterDiscardsUserLeftText.visibility = View.VISIBLE
+            counterDiscardsUserLeftText.text = getString(R.string.text_win_round)
+            counterDiscardsUserRightText.visibility = View.VISIBLE
+            counterDiscardsUserRightText.text = getString(R.string.text_lose_round)
+
         } else {
+
             cardsManager.addCardsListDiscardsUserRight(
                 ccGameTableViewModel.cardLefPut!!, ccGameTableViewModel.cardRightPut!!)
+
+            counterDiscardsUserRightText.visibility = View.VISIBLE
+            counterDiscardsUserRightText.text = getString(R.string.text_win_round)
+            counterDiscardsUserLeftText.visibility = View.VISIBLE
+            counterDiscardsUserLeftText.text = getString(R.string.text_lose_round)
         }
 
         startTimer(userWinner)
@@ -243,27 +267,110 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
 
         messageStartGameLeftText.visibility = View.VISIBLE
         cardPutUserLeftImage.visibility = View.GONE
+        cardsPendingUserLeftImage.isEnabled = true
         messageStartGameRightText.visibility = View.VISIBLE
         cardPutUserRightImage.visibility = View.GONE
+        cardsPendingUserRightImage.isEnabled = true
 
         if (userWinner == Constants.WIN_USER_LEFT) {
 
             // User Left
-            cardsPendingUserLeftImage.isEnabled = true
             cardsDiscardsUserLeftImage.visibility = View.VISIBLE
             cardsDiscardsUserLeftImage.ccCrazyFrontLayout.visibility = View.GONE
             cardsDiscardsUserLeftImage.ccCrazyBackLayout.visibility = View.VISIBLE
-            counterDiscardsUserLeftText.visibility = View.VISIBLE
+
+            playManager.countRWonUserLeft()
+            playManager.countDiscardsUserLeft()
+            counterDiscardsUserLeftText.text =
+                getString(
+                    R.string.text_result_discards,
+                    playManager.getCounterDiscardsUserLeft().toString())
+
+            counterDiscardsUserRightText.text =
+                getString(
+                    R.string.text_result_discards,
+                    playManager.getCounterDiscardsUserRight().toString())
 
         } else {
 
             // User Right
-            cardsPendingUserRightImage.isEnabled = true
-            cardsPendingUserRightImage.ccCrazyBackLayout.visibility = View.VISIBLE
             cardsDiscardsUserRightImage.visibility = View.VISIBLE
             cardsDiscardsUserRightImage.ccCrazyFrontLayout.visibility = View.GONE
             cardsDiscardsUserRightImage.ccCrazyBackLayout.visibility = View.VISIBLE
-            counterDiscardsUserRightText.visibility = View.VISIBLE
+
+            playManager.countRWonUserRight()
+            playManager.countDiscardsUserRight()
+            counterDiscardsUserRightText.text =
+                getString(
+                    R.string.text_result_discards,
+                    playManager.getCounterDiscardsUserRight().toString())
+
+            counterDiscardsUserLeftText.text =
+                getString(
+                    R.string.text_result_discards,
+                    playManager.getCounterDiscardsUserLeft().toString())
         }
+
+        updateRounds()
+    }
+
+    private fun updateRounds() {
+
+        if (playManager.getCounterRounds() < PlayManager.MAX_ROUNDS) {
+
+            playManager.countRound()
+            counterRoundText.text =
+                getString(R.string.text_counter_round, playManager.getCounterRounds().toString())
+            titleRoundText.visibility = View.VISIBLE
+
+            playManager.setPutCardLeft(false)
+            playManager.setPutCardRight(false)
+
+        } else {
+            finalizePlay()
+        }
+    }
+
+    private fun finalizePlay() {
+
+        messageStartGameLeftText.textSize = 20f
+        messageStartGameRightText.textSize = 20f
+
+        if (playManager.getCounterRWonUserLeft() > playManager.getCounterRWonUserRight()) {
+            messageStartGameLeftText.text = getString(R.string.text_winner_game)
+            messageStartGameRightText.text = getString(R.string.text_loser_game)
+        } else {
+            messageStartGameLeftText.text = getString(R.string.text_loser_game)
+            messageStartGameRightText.text = getString(R.string.text_winner_game)
+        }
+
+        startTimerFinalize()
+    }
+
+    private fun startTimerFinalize() {
+
+        val countDownTimer: CountDownTimer = object : CountDownTimer(TIME_FINISH_END, TIME_INTERVAL) {
+            override fun onTick(millisUntilFinished: Long) {
+            }
+
+            override fun onFinish() {
+                cancel()
+                resetGame()
+            }
+        }
+        countDownTimer.start()
+    }
+
+    private fun resetGame() {
+
+        messageStartGameLeftText.textSize = 12f
+        messageStartGameRightText.textSize = 12f
+        messageStartGameLeftText.text = getString(R.string.message_start_game)
+        messageStartGameRightText.text = getString(R.string.message_start_game)
+        cardsManager.freeResources()
+        playManager.freeResources()
+        initializeViews()
+        loadData()
+        observeData()
     }
 }

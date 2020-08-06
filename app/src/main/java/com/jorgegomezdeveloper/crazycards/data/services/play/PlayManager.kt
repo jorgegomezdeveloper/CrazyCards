@@ -8,6 +8,7 @@ class PlayManager {
 
         const val WIN_USER_LEFT = "left"
         const val WIN_USER_RIGHT = "right"
+        const val MAX_ROUNDS = 26
     }
 
 // Attributes
@@ -15,6 +16,11 @@ class PlayManager {
 
     private var isPutCardLeft: Boolean = false
     private var isPutCardRight: Boolean = false
+    private var counterRounds: Int = 0
+    private var counterRWonUserLeft: Int = 0
+    private var counterRWonUserRight: Int = 0
+    private var counterDiscardsUserLeft: Int = 0
+    private var counterDiscardsUserRight: Int = 0
 
 // Free Resources
 // =================================================================================================
@@ -23,9 +29,14 @@ class PlayManager {
 
         this.isPutCardLeft = false
         this.isPutCardRight = false
+        this.counterRounds = 0
+        this.counterRWonUserLeft = 0
+        this.counterRWonUserRight = 0
+        this.counterDiscardsUserLeft = 0
+        this.counterDiscardsUserRight = 0
     }
 
-// Public methods
+// Public methods - Cards
 // =================================================================================================
 
     fun setPutCardLeft(isPutCardLeft: Boolean) {
@@ -48,7 +59,7 @@ class PlayManager {
 
         } else if (cardLeft.number == cardRight.number) {
 
-            if (cardLeft.type!! > cardRight.type!!) {
+            if (cardLeft.type!! < cardRight.type!!) {
                 WIN_USER_LEFT
             } else {
                 WIN_USER_RIGHT
@@ -59,4 +70,51 @@ class PlayManager {
         }
     }
 
+
+// Public methods - Rounds
+// =================================================================================================
+
+    fun getCounterRounds(): Int {
+        return this.counterRounds
+    }
+
+    fun getCounterRWonUserLeft(): Int {
+        return this.counterRWonUserLeft
+    }
+
+    fun getCounterRWonUserRight(): Int {
+        return this.counterRWonUserRight
+    }
+
+    fun countRound() {
+        this.counterRounds++
+    }
+
+    fun countRWonUserLeft() {
+        this.counterRWonUserLeft++
+    }
+
+    fun countRWonUserRight() {
+        this.counterRWonUserRight++
+    }
+
+
+// Public methods - Discards
+// =================================================================================================
+
+    fun getCounterDiscardsUserLeft(): Int {
+        return this.counterDiscardsUserLeft
+    }
+
+    fun getCounterDiscardsUserRight(): Int {
+        return this.counterDiscardsUserRight
+    }
+
+    fun countDiscardsUserLeft() {
+        this.counterDiscardsUserLeft += 2
+    }
+
+    fun countDiscardsUserRight() {
+        this.counterDiscardsUserRight += 2
+    }
 }
