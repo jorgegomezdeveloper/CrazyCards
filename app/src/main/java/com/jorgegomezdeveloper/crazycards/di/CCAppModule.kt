@@ -9,6 +9,11 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 
+/**
+ * @author Jorge Gomez Alvarez (jorgegomezdeveloper@gmail.com)
+ * Here I declare the modules that will allow to inject the classes through Koin.
+ */
+
 // FRAGMENT modules
 // =================================================================================================
 val ccFragmentsModule = module {
@@ -23,14 +28,12 @@ val ccViewModelsModule = module {
 
 // UTILS modules
 // =================================================================================================
-
 val ccUtilsModule = module {
         single { DataStorageUtil(get()) }
 }
 
 // Manager modules
 // =================================================================================================
-
 val ccManagerModule = module {
         single { CardsManager() }
         single { PlayManager() }

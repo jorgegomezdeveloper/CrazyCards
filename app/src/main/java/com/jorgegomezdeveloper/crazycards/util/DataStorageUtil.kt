@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.SharedPreferences
 
 /**
+ * @author Jorge Gomez Alvarez (jorgegomezdeveloper@gmail.com)
  * Class for to save data in a file.
  */
 class DataStorageUtil(context: Context, FILE_PREFERENCE: String = "filePreferences") {

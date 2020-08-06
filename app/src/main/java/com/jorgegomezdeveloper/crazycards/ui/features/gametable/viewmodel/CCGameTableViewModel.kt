@@ -5,11 +5,33 @@ import com.jorgegomezdeveloper.crazycards.data.services.cards.CardsManager
 import com.jorgegomezdeveloper.crazycards.model.CardModel
 import com.jorgegomezdeveloper.crazycards.ui.base.CCBaseViewModel
 
+/**
+ * @author Jorge Gomez Alvarez (jorgegomezdeveloper@gmail.com)
+ * This view model class is responsible for launching business layer methods and collecting
+ * the generated data. It also allows you to store other data required for views.
+ */
 class CCGameTableViewModel: CCBaseViewModel() {
 
-    // Cards Lef and Right Put
-    var cardLefPut: CardModel? = null
-    var cardRightPut: CardModel? = null
+    // Cards Left and Right Put
+
+    private var cardLeftPut: CardModel? = null
+    private var cardRightPut: CardModel? = null
+
+    fun getCardLeftPut(): CardModel? {
+        return this.cardLeftPut
+    }
+
+    fun getCardRightPut(): CardModel? {
+        return this.cardRightPut
+    }
+
+    fun setCardLeftPut(cardLeftPut: CardModel?) {
+        this.cardLeftPut = cardLeftPut
+    }
+
+    fun setCardRightPut(cardRightPut: CardModel?) {
+        this.cardRightPut = cardRightPut
+    }
 
     // Mutable live data for lists of cards.
 

@@ -22,11 +22,16 @@ import kotlinx.android.synthetic.main.fragment_cc_game_table.*
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
+/**
+ * @author Jorge Gomez Alvarez (jorgegomezdeveloper@gmail.com)
+ * This fragment class is responsible for collecting the data that
+ * must be painted in the different views.
+ */
 class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
 
     companion object {
         const val TAG_FRAGMENT = "CCGameTableFragment"
-        const val TIME_FINISH: Long = 5000
+        const val TIME_FINISH: Long = 3000
         const val TIME_INTERVAL: Long = 1000
         const val TIME_FINISH_END: Long = 10000
     }
@@ -78,14 +83,22 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         ccPrioritiesLayout.visibility = View.VISIBLE
     }
 
+    /**
+     * Lets start the creation of the ordered list of letters.
+     */
     override fun loadData() {
         ccGameTableViewModel.buildListOrdered(cardsManager)
     }
 
+    /**
+     * It allows to collect the data of the action of the different observers.
+     */
     private fun observeData() {
 
         // Results Builders
 
+        //Observer that collects the ordered card list and executes
+        //the creation of the random card list.
         ccGameTableViewModel.getBuildListOrderedMutableLiveData().observe(viewLifecycleOwner,
             Observer<ArrayList<CardModel?>> {
 
@@ -95,6 +108,8 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
                 ccGameTableViewModel.buildListRandom(cardsManager, cardListOrdered)
             })
 
+        //Observer that collects the random card list and executes the creation
+        //of the random card list half for the user on the left.
         ccGameTableViewModel.getBuildListRandomMutableLiveData().observe(viewLifecycleOwner,
             Observer<ArrayList<CardModel?>> {
 
@@ -104,6 +119,8 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
                 ccGameTableViewModel.buildListRandomLeft(cardsManager, cardListRandom)
             })
 
+        //Observer that after creating half of the random card list for the user on the left,
+        //executes the creation of the half of the random card list for the user on the right.
         ccGameTableViewModel.getBuildListRandomLeftMutableLiveData().observe(viewLifecycleOwner,
             Observer<ArrayList<CardModel?>> {
 
@@ -111,6 +128,8 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
                     cardsManager, cardsManager.getCardListRandom())
             })
 
+        //Observer that after creating the random card list half for the user on the right,
+        //executes the initialization of the pending card views.
         ccGameTableViewModel.getBuildListRandomRightMutableLiveData().observe(viewLifecycleOwner,
             Observer<ArrayList<CardModel?>> {
 
@@ -118,6 +137,9 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
             })
     }
 
+    /**
+     * It allows preparing the views related to the pending cards for the two users.
+     */
     private fun initializeViewsPendingCardsUsers() {
 
         // User Left
@@ -143,6 +165,9 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         initializeListenersPendingCardsUsers()
     }
 
+    /**
+     * It allows to initialize the listeners of the click on the pending letters of the two users.
+     */
     private fun initializeListenersPendingCardsUsers() {
 
         // User Left
@@ -156,10 +181,14 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         }
     }
 
+    /**
+     * It allows to prepare the views of the card with which the user on the left plays,
+     * and execute the logic of the result control.
+     */
     private fun initializeViewsCardPutUserLeft(card: CardModel?) {
 
         cardsPendingUserLeftImage.isEnabled = false
-        if (playManager.getCounterRounds() == PlayManager.MAX_ROUNDS) {
+        if (playManager.getCounterRounds() == Constants.MAX_ROUNDS) {
             cardsPendingUserLeftImage.visibility = View.INVISIBLE
         }
 
@@ -173,14 +202,18 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
             .cvTypeCrazyImage.setImageDrawable(getImageCrazyCard(card?.type))
 
         playManager.setPutCardLeft(true)
-        ccGameTableViewModel.cardLefPut = card
+        ccGameTableViewModel.setCardLeftPut(card)
         if (playManager.areTwoCardsUsersPut()) initializeControlResult()
     }
 
+    /**
+     * It allows to prepare the views of the card with which the user on the right plays,
+     * and execute the logic of the result control.
+     */
     private fun initializeViewsCardPutUserRight(card: CardModel?) {
 
         cardsPendingUserRightImage.isEnabled = false
-        if (playManager.getCounterRounds() == PlayManager.MAX_ROUNDS) {
+        if (playManager.getCounterRounds() == Constants.MAX_ROUNDS) {
             cardsPendingUserRightImage.visibility = View.INVISIBLE
         }
 
@@ -194,10 +227,13 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
             .cvTypeCrazyImage.setImageDrawable(getImageCrazyCard(card?.type))
 
         playManager.setPutCardRight(true)
-        ccGameTableViewModel.cardRightPut = card
+        ccGameTableViewModel.setCardRightPut(card)
         if (playManager.areTwoCardsUsersPut()) initializeControlResult()
     }
 
+    /**
+     * Returns the image corresponding to the type of card that must be painted in the views.
+     */
     private fun getImageCrazyCard(type: Int?): Drawable? {
 
         var imageCrazy: Drawable? = null
@@ -220,15 +256,19 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         return imageCrazy
     }
 
+    /**
+     * It allows executing the logic of the result control with the two cards in games,
+     * and obtain a user who wins the result. And paint the corresponding views based on the result.
+     */
     private fun initializeControlResult() {
 
-        val userWinner = playManager
-            .compareCards(ccGameTableViewModel.cardLefPut!!, ccGameTableViewModel.cardRightPut!!)
+        val userWinner = playManager.compareCards(
+                ccGameTableViewModel.getCardLeftPut()!!, ccGameTableViewModel.getCardRightPut()!!)
 
         if (userWinner == Constants.WIN_USER_LEFT) {
 
             cardsManager.addCardsListDiscardsUserLeft(
-                ccGameTableViewModel.cardLefPut!!, ccGameTableViewModel.cardRightPut!!)
+                ccGameTableViewModel.getCardLeftPut()!!, ccGameTableViewModel.getCardRightPut()!!)
 
             counterDiscardsUserLeftText.visibility = View.VISIBLE
             counterDiscardsUserLeftText.text = getString(R.string.text_win_round)
@@ -238,7 +278,7 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         } else {
 
             cardsManager.addCardsListDiscardsUserRight(
-                ccGameTableViewModel.cardLefPut!!, ccGameTableViewModel.cardRightPut!!)
+                ccGameTableViewModel.getCardLeftPut()!!, ccGameTableViewModel.getCardRightPut()!!)
 
             counterDiscardsUserRightText.visibility = View.VISIBLE
             counterDiscardsUserRightText.text = getString(R.string.text_win_round)
@@ -249,6 +289,9 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         startTimer(userWinner)
     }
 
+    /**
+     * It allows you to run a few seconds of waiting before automatically starting the next game round.
+     */
     private fun startTimer(userWinner: String?) {
 
         val countDownTimer: CountDownTimer = object : CountDownTimer(TIME_FINISH, TIME_INTERVAL) {
@@ -263,6 +306,10 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         countDownTimer.start()
     }
 
+    /**
+     * It allows to prepare the views of the discarded letters, as well as the views with
+     * the corresponding messages. It also executes the logic of going to the next round.
+     */
     private fun initializeViewsCardsDiscardsUsers(userWinner: String?) {
 
         messageStartGameLeftText.visibility = View.VISIBLE
@@ -314,9 +361,12 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         updateRounds()
     }
 
+    /**
+     * It allows executing the logic of the passage to the next round or executing the end of the game.
+     */
     private fun updateRounds() {
 
-        if (playManager.getCounterRounds() < PlayManager.MAX_ROUNDS) {
+        if (playManager.getCounterRounds() < Constants.MAX_ROUNDS) {
 
             playManager.countRound()
             counterRoundText.text =
@@ -331,6 +381,9 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         }
     }
 
+    /**
+     * Allows you to execute the game ending logic.
+     */
     private fun finalizePlay() {
 
         messageStartGameLeftText.textSize = 20f
@@ -347,6 +400,10 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         startTimerFinalize()
     }
 
+    /**
+     * It allows executing a few seconds of waiting after finishing
+     * the game to execute the game reset logic.
+     */
     private fun startTimerFinalize() {
 
         val countDownTimer: CountDownTimer = object : CountDownTimer(TIME_FINISH_END, TIME_INTERVAL) {
@@ -361,6 +418,9 @@ class CCGameTableFragment: CCBaseViewModelFragment<CCGameTableViewModel>() {
         countDownTimer.start()
     }
 
+    /**
+     * Allows you to run the reset logic to automatically start a new game.
+     */
     private fun resetGame() {
 
         messageStartGameLeftText.textSize = 12f

@@ -7,15 +7,11 @@ import com.jorgegomezdeveloper.crazycards.ui.base.CCBaseFragment
 import com.jorgegomezdeveloper.crazycards.ui.features.gametable.view.CCGameTableFragment
 import org.koin.android.ext.android.inject
 
+/**
+ * @author Jorge Gomez Alvarez (jorgegomezdeveloper@gmail.com)
+ * This class is the main activity. And load the fragment of the game board.
+ */
 class CCMainActivity: CCBaseActivity() {
-
-// Constants
-// =================================================================================================
-
-    companion object {
-        private const val TAG_ACTIVITY = "CCMainActivity"
-    }
-
 
 // Injects
 // =================================================================================================
@@ -38,21 +34,8 @@ class CCMainActivity: CCBaseActivity() {
        return ccGameTableFragment
     }
 
-    override fun initialize() {
-        TODO("Not yet implemented")
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         setTheme(R.style.AppTheme)
         super.onCreate(savedInstanceState)
-        initializeViews()
-        initializeListeners()
-    }
-
-    override fun initializeViews() {
-
-    }
-
-    override fun initializeListeners() {
     }
 }
