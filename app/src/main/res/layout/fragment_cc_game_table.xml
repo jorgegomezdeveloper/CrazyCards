@@ -44,7 +44,8 @@
                     android:gravity="start"
                     android:layout_margin="10dp"
                     android:textSize="20sp"
-                    android:textColor="@color/colorGeneral"/>
+                    android:textColor="@color/colorGeneral"
+                    android:visibility="invisible"/>
 
             </LinearLayout>
 
@@ -82,7 +83,7 @@
 
                     <TextView
                         android:id="@+id/messageStartGameLeftText"
-                        android:layout_width="120dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_margin="10dp"
@@ -158,7 +159,8 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
                     android:textSize="20sp"
-                    android:textColor="@color/colorGeneral"/>
+                    android:textColor="@color/colorGeneral"
+                    android:visibility="invisible"/>
 
                 <include layout="@layout/card_view_cc_crazy"
                     android:id="@+id/cardsDiscardsUserRightImage"
@@ -184,7 +186,7 @@
 
                     <TextView
                         android:id="@+id/messageStartGameRightText"
-                        android:layout_width="120dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:layout_margin="10dp"

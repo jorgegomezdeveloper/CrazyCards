@@ -1,6 +1,7 @@
 package com.jorgegomezdeveloper.crazycards.di
 
 import com.jorgegomezdeveloper.crazycards.data.services.cards.CardsManager
+import com.jorgegomezdeveloper.crazycards.data.services.play.PlayManager
 import com.jorgegomezdeveloper.crazycards.ui.features.gametable.view.CCGameTableFragment
 import com.jorgegomezdeveloper.crazycards.ui.features.gametable.viewmodel.CCGameTableViewModel
 import com.jorgegomezdeveloper.crazycards.util.DataStorageUtil
@@ -32,4 +33,6 @@ val ccUtilsModule = module {
 
 val ccManagerModule = module {
         single { CardsManager() }
+        single { PlayManager() }
 }
+

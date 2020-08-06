@@ -3,7 +3,7 @@ package com.jorgegomezdeveloper.crazycards.data.services.cards
 import com.jorgegomezdeveloper.crazycards.model.CardModel
 import kotlin.random.Random
 
-class CardsManager() {
+class CardsManager {
 
     companion object {
 
@@ -40,7 +40,7 @@ class CardsManager() {
         this.cardListDiscardsUserRight = ArrayList()
     }
 
-// Public methods - Builders
+// Public methods - Builders Lists
 // =================================================================================================
 
     fun buildListOrdered(): ArrayList<CardModel?>? {
@@ -51,15 +51,15 @@ class CardsManager() {
 
                 when (j) {
                     11 -> { this.cardListOrdered?.add(CardModel(i.toString()+j.toString(),
-                            i.toString(), j.toString(), SYMBOL_J)) }
+                            i, j, SYMBOL_J)) }
                     12 -> { this.cardListOrdered?.add(CardModel(i.toString()+j.toString(),
-                            i.toString(), j.toString(), SYMBOL_Q)) }
+                            i, j, SYMBOL_Q)) }
                     13 -> { this.cardListOrdered?.add(CardModel(i.toString()+j.toString(),
-                            i.toString(), j.toString(), SYMBOL_K)) }
+                            i, j, SYMBOL_K)) }
                     14 -> { this.cardListOrdered?.add(CardModel(i.toString()+j.toString(),
-                            i.toString(), j.toString(), SYMBOL_A)) }
+                            i, j, SYMBOL_A)) }
                     else -> { this.cardListOrdered?.add(CardModel(i.toString()+j.toString(),
-                              i.toString(), j.toString(), j.toString()))}
+                              i, j, j.toString()))}
                 }
             }
         }
@@ -110,16 +110,33 @@ class CardsManager() {
         return this.cardListRandomUserRight
     }
 
-// Public methods - Adds
+
+// Public methods - Gets Cards Put
+// =================================================================================================
+
+    fun getCardPutUserLeft(): CardModel? {
+
+        val cardPut = this.cardListRandomUserLeft?.get(0)
+        this.cardListRandomUserLeft?.removeAt(0)
+
+        return cardPut
+    }
+
+    fun getCardPutUserRight(): CardModel? {
+
+        val cardPut = this.cardListRandomUserRight?.get(0)
+        this.cardListRandomUserRight?.removeAt(0)
+
+        return cardPut
+    }
+
+// Public methods - Add Discards Cards
 // =================================================================================================
 
     fun addCardsListDiscardsUserLeft(cardLeft: CardModel, cardRight: CardModel):
                                                                             ArrayList<CardModel?>? {
         this.cardListDiscardsUserLeft?.add(cardLeft)
         this.cardListDiscardsUserLeft?.add(cardRight)
-
-        this.cardListRandomUserLeft?.remove(cardLeft)
-        this.cardListRandomUserRight?.remove(cardRight)
 
         return this.cardListDiscardsUserLeft
     }
@@ -129,13 +146,21 @@ class CardsManager() {
         this.cardListDiscardsUserRight?.add(cardRight)
         this.cardListDiscardsUserRight?.add(cardLeft)
 
-        this.cardListRandomUserRight?.remove(cardRight)
-        this.cardListRandomUserLeft?.remove(cardLeft)
-
         return this.cardListDiscardsUserRight
     }
 
 // Public methods - Gets
 // =================================================================================================
 
+    fun getCardListRandom(): ArrayList<CardModel?>? {
+        return cardListRandom
+    }
+
+    fun getCardListRandomUserLeft(): ArrayList<CardModel?>? {
+        return cardListRandomUserLeft
+    }
+
+    fun getCardListRandomUserRight(): ArrayList<CardModel?>? {
+        return cardListRandomUserRight
+    }
 }
